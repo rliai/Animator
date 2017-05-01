@@ -2,7 +2,9 @@
 #include <FL/gl.h>
 #include <GL/glu.h>
 #include <cstdio>
-
+#include <cmath>
+#include<string>
+#include<iostream>
 // ********************************************************
 // Support functions from previous version of modeler
 // ********************************************************
@@ -414,3 +416,106 @@ void drawTriangle( double x1, double y1, double z1,
         glEnd();
     }
 }
+
+
+
+void drawTorus(double r1, double r2) {
+	ModelerDrawState *mds = ModelerDrawState::Instance();
+
+	_setupOpenGl();
+	int divisions;
+	switch (mds->m_quality)
+	{
+	case HIGH:
+		divisions = 32; break;
+	case MEDIUM:
+		divisions = 20; break;
+	case LOW:
+		divisions = 12; break;
+	case POOR:
+		divisions = 8; break;
+	}
+
+	if (mds->m_rayFile)
+	{
+		_dump_current_modelview();
+		fprintf(mds->m_rayFile,
+			"cone { inner_radius=%f; outer_radius=%f;\n", r1, r2);
+		_dump_current_material();
+		fprintf(mds->m_rayFile, "})\n");
+	}
+	else {
+		int num = divisions * 4;
+
+		double  majorStep = 2.0f * M_PI / num;
+		double  minorStep = 2.0f * M_PI / num;
+		int     i, j;
+
+		for (i = 0; i<num; ++i)
+		{
+			double a0 = i * majorStep;
+			double a1 = a0 + majorStep;
+			GLfloat x0 = (GLfloat)cos(a0);
+			GLfloat y0 = (GLfloat)sin(a0);
+			GLfloat x1 = (GLfloat)cos(a1);
+			GLfloat y1 = (GLfloat)sin(a1);
+
+			glBegin(GL_TRIANGLE_STRIP);
+			for (j = 0; j <= num; ++j)
+			{
+				double  b = j * minorStep;
+				GLfloat c = (GLfloat)cos(b);
+				GLfloat r = r1 * c + r2;
+				GLfloat z = r1 * (GLfloat)sin(b);
+
+				glNormal3f(x0*c, y0*c, z / r1);
+				glVertex3f(x0*r, y0*r, z);
+
+				glNormal3f(x1*c, y1*c, z / r1);
+				glVertex3f(x1*r, y1*r, z);
+			}
+			glEnd();
+		}
+
+
+	}
+
+}
+
+
+void drawTexture(string& fileName, GLuint& source)
+{
+	int h, w, num;
+	unsigned char* textureData = stbi_load(fileName.c_str(), &w, &h, &num, STBI_rgb_alpha);
+
+	glGenTextures(1, &source);
+	glBindTexture(GL_TEXTURE_2D, source);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, textureData);
+
+	glFlush();
+	stbi_image_free(textureData);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
