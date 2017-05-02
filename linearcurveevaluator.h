@@ -3,7 +3,7 @@
 
 #pragma warning(disable : 4786)  
 
-#include "CurveEvaluator.h"
+#include "curveevaluator.h"
 
 //using namespace std;
 
