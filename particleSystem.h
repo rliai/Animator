@@ -17,8 +17,10 @@
 #define __PARTICLE_SYSTEM_H__
 
 #include "vec.h"
-
-
+#include <stdlib.h>
+#include <vector>
+#include <list>
+#include "particle.h"
 
 class ParticleSystem {
 
@@ -71,7 +73,7 @@ public:
 	bool isSimulate() { return simulate; }
 	bool isDirty() { return dirty; }
 	void setDirty(bool d) { dirty = d; }
-
+	vector<list<Particle>*> bakingParticles;
 
 
 protected:
