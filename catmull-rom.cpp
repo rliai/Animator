@@ -1,6 +1,6 @@
 
 #include <assert.h>
-#include"beziercurveevaluator.h"
+#include"catmull-rom.h"
 #include "vec.h"
 #include "mat.h"
 #include <iostream>
@@ -13,14 +13,14 @@ const Mat4d matrix = Mat4d(
 	3, -6, 3, 0,
 	-3, 3, 0, 0,
 	1, 0, 0, 0
-	);
+);
 
 
-void BezierCurveEvaluator::evaluateCurve(const std::vector<Point>& ptvCtrlPts,
+void CatmullRomCurveEvaluator::evaluateCurve(const std::vector<Point>& ptvCtrlPts,
 	std::vector<Point>& ptvEvaluatedCurvePts,
 	const float& fAniLength,
 	const bool& bWrap) const
-{	
+{
 
 	ptvEvaluatedCurvePts.clear();
 	int ctrlPt = ptvCtrlPts.size();
@@ -30,7 +30,7 @@ void BezierCurveEvaluator::evaluateCurve(const std::vector<Point>& ptvCtrlPts,
 
 	// No corner case for wrapping
 	for (int i = 0; i < ctrlPtGroup; ++i)
-	{	
+	{
 		int pos = 3 * i;
 		Vec4d px(ptvCtrlPts[pos].x, ptvCtrlPts[pos + 1].x, ptvCtrlPts[pos + 2].x, ptvCtrlPts[pos + 3].x);
 		Vec4d py(ptvCtrlPts[pos].y, ptvCtrlPts[pos + 1].y, ptvCtrlPts[pos + 2].y, ptvCtrlPts[pos + 3].y);
@@ -75,7 +75,7 @@ void BezierCurveEvaluator::evaluateCurve(const std::vector<Point>& ptvCtrlPts,
 		else
 		{
 			Point firstPt(ptvCtrlPts[0].x + fAniLength, ptvCtrlPts[0].y);
-			
+
 			int pos = ctrlPt - remainPt;
 			Vec4d px(ptvCtrlPts[pos].x, ptvCtrlPts[pos + 1].x, ptvCtrlPts[pos + 2].x, firstPt.x);
 			Vec4d py(ptvCtrlPts[pos].y, ptvCtrlPts[pos + 1].y, ptvCtrlPts[pos + 2].y, firstPt.y);
