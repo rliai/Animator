@@ -95,12 +95,19 @@ void ModelerApplication::Init(ModelerViewCreator_f createView,
 
 	ModelerView* modelerView = createView(0, 0, 100, 100 ,NULL);
 	m_ui->replaceModelerView(modelerView);
+
+	ParticleSystem* ps = new ParticleSystem();
+	this->SetParticleSystem(ps);
+
 }
 
 ModelerApplication::~ModelerApplication()
 {
     // FLTK handles widget deletion
     delete m_ui;
+	if (ps)
+		delete ps;
+
 }
 
 int ModelerApplication::Run()

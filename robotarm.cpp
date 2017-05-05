@@ -257,7 +257,10 @@ int main()
 
 	controls[INDIVIDUAL] = ModelerControl("INDIVIDUAL", 0.0f, 1.0f, 1.0f, 0.0f);
 
+	ParticleSystem *ps = new ParticleSystem();
+	
 
+	ModelerApplication::Instance()->SetParticleSystem(ps);
 
 	ModelerApplication::Instance()->Init(&createSampleModel, controls, NUMCONTROLS);
 	return ModelerApplication::Instance()->Run();

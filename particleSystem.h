@@ -21,6 +21,7 @@
 #include <vector>
 #include <list>
 #include "particle.h"
+#include <stdio.h>
 
 class ParticleSystem {
 
@@ -35,6 +36,8 @@ public:
 	/** Destructor **/
 	virtual ~ParticleSystem();
 
+	int getIndex(float t);
+
 	/** Simulation fxns **/
 	// This fxn should render all particles in the system,
 	// at current time t.
@@ -46,7 +49,7 @@ public:
 
 	// This function should compute forces acting on all particles
 	// and update their state (pos and vel) appropriately.
-	virtual void computeForcesAndUpdateParticles(float t);
+	virtual void computeForcesAndUpdateParticles(int t);
 
 	// This function should reset the system to its initial state.
 	// When you need to reset your simulation, PLEASE USE THIS FXN.
@@ -62,7 +65,9 @@ public:
 
 	// This function should clear out your data structure
 	// of baked particles (without leaking memory).
-	virtual void clearBaked();	
+	virtual void clearBaked();
+
+	Particle generateNewParticle();
 
 
 
@@ -91,6 +96,9 @@ protected:
 	bool simulate;						// flag for simulation mode
 	bool dirty;							// flag for updating ui (don't worry about this)
 
+	
+
+	int generatespeed;
 };
 
 

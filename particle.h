@@ -8,7 +8,7 @@ class Particle {
 public:
 	
 	Particle(const Particle& p);
-	Particle(Vec3f v, Vec3f p, Vec3f a, Vec3f s, double m);
+	Particle(Vec3f v, Vec3f p, Vec3f a, Vec3f s, double m, int life);
 	~Particle();
 
 	Vec3f velocity;
@@ -16,6 +16,7 @@ public:
 	Vec3f acceleration;
 	Vec3f size;
 
+	int life;
 	double mass;
 
 
