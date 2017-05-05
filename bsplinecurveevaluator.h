@@ -10,10 +10,10 @@ public:
 	/*
 	* Override to get a bezier curve according to control Points
 	*/
-	void evaluateCurve(const std::vector<Point>& controlPoints,
-		std::vector<Point>& evaluatedPoints,
-		const float& animationLength,
-		const bool& beWrap) const override;	
+	void evaluateCurve(const std::vector<Point>& ptvCtrlPts,
+		std::vector<Point>& ptvEvaluatedCurvePts,
+		const float& fAniLength,
+		const bool& bWrap) const;
 };
 
 

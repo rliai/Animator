@@ -8,10 +8,10 @@ class BezierCurveEvaluator : public CurveEvaluator
 {
 public:
 
-	void evaluateCurve(const std::vector<Point>& controlPoints,
-		std::vector<Point>& evaluatedPoints,
-		const float& animationLength,
-		const bool& beWrap) const;
+	void evaluateCurve(const std::vector<Point>& ptvCtrlPts,
+		std::vector<Point>& ptvEvaluatedCurvePts,
+		const float& fAniLength,
+		const bool& bWrap) const;
 };
 
 
