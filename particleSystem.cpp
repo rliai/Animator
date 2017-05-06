@@ -144,8 +144,11 @@ void ParticleSystem::drawParticles(float t)
 
 	bakeParticles(t);
 	
-	int x = t * 30;
-	list<Particle>* particles = bakingParticles[x-1];
+	int x = getIndex(t);
+
+	
+
+	list<Particle>* particles = bakingParticles[x];
 
 	if (particles == nullptr) {
 		return;
@@ -186,7 +189,9 @@ void ParticleSystem::bakeParticles(float t)
 	int x = getIndex(t);
 
 	
-	
+	if (x == 30) {
+		int yy = 1;
+	}
 	
 
 	int xx = bakingParticles.size();
@@ -226,11 +231,11 @@ void ParticleSystem::bakeParticles(float t)
 
 
 	list<Particle>* newlist = new list<Particle>();
-	if (last > 0) {
+	
 		
 		const list<Particle>* particles = bakingParticles[last];
 
-		int time = (x - last)/30;
+		float time = (x - last)/(float)30;
 		computeForcesAndUpdateParticles(last);
 		for (auto iter = particles->begin(); iter != particles->end(); iter++) {
 
@@ -243,7 +248,7 @@ void ParticleSystem::bakeParticles(float t)
 			Vec3f pp = par.position;
 			Vec3f vv = par.velocity;
 			Vec3f aa = par.acceleration;
-			int ll = par.life + 1;
+			int ll = par.life + (x - last);
 			pp = pp + vv*time + aa*time*time / 2;
 			vv = vv + aa*time;
 
@@ -251,15 +256,15 @@ void ParticleSystem::bakeParticles(float t)
 
 			newlist->push_back(p);
 		}
-		for (int i = 0; i < generatespeed * time; ++i)
+		for (int i = 0; i < generatespeed * (x - last); ++i)
 		{
 			newlist->push_back(generateNewParticle());
 		}
 
 		
-		last = x;
+		
 		bakingParticles[x] = newlist;
-	}
+	
 	
 	
 }
